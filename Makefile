@@ -12,7 +12,7 @@ GCC_OPTS = -std=c++11 -g -O3 -Wall
 CUDA_LD_FLAGS = -L /usr/local/cuda/lib64 -lcuda -lcudart
 
 final: main.o imgblur.o
-	g++ -o gray main.o im2Gray.o $(CUDA_LD_FLAGS) $(OPENCV_LIBS)
+	g++ -o blur main.o blur_kernels.o $(CUDA_LD_FLAGS) $(OPENCV_LIBS)
 
 main.o: main.cpp utils.h
 	g++ -c $(GCC_OPTS) -I$(CUDA_INCLUDEPATH) $(OPENCV_CFLAGS) main.cpp 
@@ -21,6 +21,5 @@ imgblur.o: blur_kernels.cu utils.h
 	$(NVCC) -c blur_kernels.cu $(NVCC_OPTS) -I$(CUDA_INCLUDEPATH) $(OPENCV_CFLAGS)
 
 clean:
-	rm -f *.o gray
-
-
+	rm -f *.o blur blurred_gpu.png blurred_serial.png
+# export LD_LIBRARY_PATH=$CONDA_PREFIX/lib:$LD_LIBRARY_PATH
