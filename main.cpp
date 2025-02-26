@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <cstdio>
 #include <cuda.h>
 #include <cuda_runtime.h>
@@ -10,6 +11,7 @@
 
 #include "utils.h"
 #include "gaussian_kernel.h"
+#include <iomanip> // for std::setprecision
 
 /*
  * Compute if the two images are correctly

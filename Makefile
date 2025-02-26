@@ -21,5 +21,5 @@ imgblur.o: blur_kernels.cu utils.h
 	$(NVCC) -c blur_kernels.cu $(NVCC_OPTS) -I$(CUDA_INCLUDEPATH) $(OPENCV_CFLAGS)
 
 clean:
-	rm -f *.o blur blurred_gpu.png blurred_serial.png
+	rm -f *.o blur blurred_gpu.bmp blurred_serial.bmp
 # export LD_LIBRARY_PATH=$CONDA_PREFIX/lib:$LD_LIBRARY_PATH
