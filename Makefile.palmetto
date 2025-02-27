@@ -1,0 +1,29 @@
+NVCC=nvcc
+
+OPENCV_INCLUDEPATH=$(HOME)/software/spackages/linux-rocky8-broadwell/aocc-4.1.0/opencv-4.8.0-fhi7jz7f2pqw7ezfld7awdwkcsvfpbir/include/opencv4
+OPENCV_LIBPATH=$(HOME)/software/spackages/linux-rocky8-broadwell/aocc-4.1.0/opencv-4.8.0-fhi7jz7f2pqw7ezfld7awdwkcsvfpbir/lib64
+
+# OPENCV_LIBS=`pkg-config --libs opencv4`
+# OPENCV_CFLAGS=`pkg-config --cflags opencv4`
+OPENCV_CFLAGS=-I$(OPENCV_INCLUDEPATH)
+OPENCV_LIBS=-L$(OPENCV_LIBPATH) -lopencv_core -lopencv_imgproc -lopencv_highgui -lopencv_imgcodecs -lstdc++
+
+
+
+CUDA_INCLUDEPATH=$(CUDA_HOME)/targets/x86_64-linux/include
+
+NVCC_OPTS=
+GCC_OPTS=-std=c++11 -g -O3 -Wall
+CUDA_LD_FLAGS=-L$(CUDA_HOME)/lib64 -lcudart -lcuda
+final: main.o imgblur.o
+	g++ -o blur main.o blur_kernels.o $(CUDA_LD_FLAGS) $(OPENCV_LIBS)
+
+main.o:main.cpp utils.h
+	g++ -c $(GCC_OPTS) -I $(CUDA_INCLUDEPATH) $(OPENCV_CFLAGS) main.cpp  $(OPENCV_LIBS) 
+
+imgblur.o: blur_kernels.cu utils.h
+	$(NVCC) -c blur_kernels.cu $(NVCC_OPTS) -I$(CUDA_INCLUDEPATH) $(OPENCV_CFLAGS)
+
+clean:
+	rm -f *.o blur blurred_gpu.png blurred_serial.png
+
