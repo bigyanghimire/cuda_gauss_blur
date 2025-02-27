@@ -110,10 +110,10 @@ __global__ void recombineChannels(unsigned char *d_r, unsigned char *d_g, unsign
 void your_gauss_blur(uchar4 *d_imrgba, uchar4 *d_oimrgba, size_t rows, size_t cols,
                      unsigned char *d_red, unsigned char *d_green, unsigned char *d_blue,
                      unsigned char *d_rblurred, unsigned char *d_gblurred, unsigned char *d_bblurred,
-                     float *d_filter, int filterWidth)
+                     float *d_filter, int filterWidth, int num_threads)
 {
 
-        int threads_per_block = 32;
+        int threads_per_block = num_threads;
         dim3 gridSize((cols + threads_per_block - 1) / threads_per_block, (rows + threads_per_block - 1) / threads_per_block, 1);
         dim3 blockSize(threads_per_block, threads_per_block, 1);
 

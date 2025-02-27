@@ -116,10 +116,10 @@ void serialGaussianBlur(unsigned char *in, unsigned char *out, const int rows, c
             int output_index = cols * i + j;
 
             out[output_index] = static_cast<unsigned char>(pixelSum / weightSum);
-            if (output_index == 2)
-            {
-                printf("the output red cpu  %d with value %d\n", output_index, out[output_index]);
-            }
+            // if (output_index == 2)
+            // {
+            //     printf("the output red cpu  %d with value %d\n", output_index, out[output_index]);
+            // }
         }
     }
 }
@@ -178,7 +178,7 @@ int main(int argc, char const *argv[])
     std::string infile;
     std::string outfile;
     std::string reference;
-
+    int num_threads = 32;
     switch (argc)
     {
     case 2:
@@ -195,6 +195,12 @@ int main(int argc, char const *argv[])
         infile = std::string(argv[1]);
         outfile = std::string(argv[2]);
         reference = std::string(argv[3]);
+        break;
+    case 5:
+        infile = std::string(argv[1]);
+        outfile = std::string(argv[2]);
+        reference = std::string(argv[3]);
+        num_threads = std::stoi(argv[4]);
         break;
     default:
         std::cerr << "Usage ./gblur <in_image> <out_image> <reference_file> \n";
@@ -248,7 +254,7 @@ int main(int argc, char const *argv[])
     //     printf("Pixel %d: r=%d, g=%d, b=%d\n", i, d_red_blurred[i], d_green_blurred[i], d_blue_blurred[i]);
     // }
     serialRecombineChannels(d_red_blurred, d_green_blurred, d_blue_blurred, r_o_img, img.rows, img.cols);
-    printf("the output red cpu %d with value %d\n", 1, d_red_blurred[15]);
+    printf("the num threads is %d\n", num_threads);
     // for (int i = 0; i < 10; ++i)
     // {
     //     printf("the output bluured %d with value %d\n", i, d_red_blurred[i]);
@@ -276,7 +282,7 @@ int main(int argc, char const *argv[])
     checkCudaErrors(cudaMemcpy(d_filter, h_filter, sizeof(float) * fWidth * fWidth, cudaMemcpyHostToDevice));
     // kernel launch code
     your_gauss_blur(d_in_img, d_o_img, img.rows, img.cols, d_red, d_green, d_blue,
-                    d_red_blurred, d_green_blurred, d_blue_blurred, d_filter, fWidth);
+                    d_red_blurred, d_green_blurred, d_blue_blurred, d_filter, fWidth, num_threads);
 
     // memcpy the output image to the host side.
     checkCudaErrors(cudaMemcpy(h_o_img, d_o_img, sizeof(uchar4) * img.rows * img.cols, cudaMemcpyDeviceToHost));

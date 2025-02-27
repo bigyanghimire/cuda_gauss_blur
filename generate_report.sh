@@ -32,5 +32,5 @@ for image in "$IMAGE_DIR"/*; do
     mkdir -p "$(dirname "$result_path")"
 
     # Run the profiling command
-    ncu -o "$output_name" ./blur "$image" "$result_path"
+    ncu -o "$output_name" ./blur "$image" "$result_path" test_image.bmp $NUMBER_OF_THREADS
 done
