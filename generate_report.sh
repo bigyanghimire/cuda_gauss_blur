@@ -13,16 +13,17 @@ NUMBER_OF_THREADS=$2  # Adjust as needed
 
 # Directory containing images
 IMAGE_DIR="Test_Images"
+# Output directory for reports
+REPORT_DIR="report/$GPU_NAME"
 
+# Ensure report directory exists
+mkdir -p "$REPORT_DIR"
 # Loop through each image
 for image in "$IMAGE_DIR"/*; do
     # Extract the filename without the path
-    img_name=$(basename "$image")
     img_first_name=$(basename "$image" | cut -d. -f1)
-
-
     # Construct output filename
-    output_name="${GPU_NAME}+t_${NUMBER_OF_THREADS}+${img_name}"
+    output_name="${REPORT_DIR}/${GPU_NAME}_t_${NUMBER_OF_THREADS}_${img_first_name}"
     
     # Construct result path
     result_path="${GPU_NAME}/${NUMBER_OF_THREADS}/${img_first_name}_result.bmp"

@@ -10,3 +10,4 @@ else
 fi
 make -f $MAKE_FILE clean
 rm -fr v100/
+rm -fr report/
