@@ -126,7 +126,7 @@ void serialGaussianBlur(unsigned char *in, unsigned char *out, const int rows, c
 void serialSeparateChannels(uchar4 *imrgba, unsigned char *r, unsigned char *g, unsigned char *b,
                             const int rows, const int cols)
 {
-    printf("total pxiels are are %d\n", rows * cols);
+    // printf("total pxiels are are %d\n", rows * cols);
     for (int i = 0; i < rows * cols; ++i)
     {
 
@@ -154,10 +154,10 @@ void serialRecombineChannels(unsigned char *r, unsigned char *g, unsigned char *
         pixel.z = r[i]; // Assign blue channel
         pixel.w = 255;  // Set alpha channel to 255 (fully opaque)
         orgba[i] = pixel;
-        if (i == 2)
-        {
-            printf("the final cpu output for   %d with value %d\n", i, orgba[i]);
-        }
+        // if (i == 2)
+        // {
+        //     printf("the final cpu output for   %d with value %d\n", i, orgba[i]);
+        // }
     }
 }
 
@@ -254,16 +254,16 @@ int main(int argc, char const *argv[])
     //     printf("Pixel %d: r=%d, g=%d, b=%d\n", i, d_red_blurred[i], d_green_blurred[i], d_blue_blurred[i]);
     // }
     serialRecombineChannels(d_red_blurred, d_green_blurred, d_blue_blurred, r_o_img, img.rows, img.cols);
-    printf("the num threads is %d\n", num_threads);
-    // for (int i = 0; i < 10; ++i)
-    // {
-    //     printf("the output bluured %d with value %d\n", i, d_red_blurred[i]);
-    // }
-    // for (int i = 1000; i < 1010; ++i)
-    // {
-    //     printf("the output values %d with value %d\n", i, r_o_img[i]);
-    // }
-    // printArray<float>(h_filter, fWidth * fWidth); // printUtility.
+    // printf("the num threads is %d\n", num_threads);
+    //  for (int i = 0; i < 10; ++i)
+    //  {
+    //      printf("the output bluured %d with value %d\n", i, d_red_blurred[i]);
+    //  }
+    //  for (int i = 1000; i < 1010; ++i)
+    //  {
+    //      printf("the output values %d with value %d\n", i, r_o_img[i]);
+    //  }
+    //  printArray<float>(h_filter, fWidth * fWidth); // printUtility.
 
     // GPU implementation
     // copy the image and filter over to GPU here

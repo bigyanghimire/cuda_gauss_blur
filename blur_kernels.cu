@@ -42,10 +42,10 @@ __global__ void gaussianBlur(unsigned char *d_in, unsigned char *d_out,
         }
         int output_index = cols * j + i; // 2D (i,j) to 1D index
         d_out[output_index] = static_cast<unsigned char>(pixelSum / weightSum);
-        if (output_index == 2)
-        {
-                printf("the output red gpu  %d with value %d\n", output_index, d_out[output_index]);
-        }
+        // if (output_index == 2)
+        // {
+        //         printf("the output red gpu  %d with value %d\n", output_index, d_out[output_index]);
+        // }
 }
 
 /*
@@ -100,10 +100,10 @@ __global__ void recombineChannels(unsigned char *d_r, unsigned char *d_g, unsign
                 // {
                 //         printf("the output red blurred for thread %d with value %d\n", idx, d_r[idx]);
                 // }
-                if (idx == 2)
-                {
-                        printf("the final gpu output for   %d with value %d\n", idx, d_orgba[idx]);
-                }
+                // if (idx == 2)
+                // {
+                //         printf("the final gpu output for   %d with value %d\n", idx, d_orgba[idx]);
+                // }
         }
 }
 
