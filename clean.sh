@@ -9,3 +9,4 @@ else
     exit 1
 fi
 make -f $MAKE_FILE clean
+rm -fr v100/

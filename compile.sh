@@ -19,4 +19,4 @@ make -f $MAKE_FILE clean
 make -f $MAKE_FILE
 
 # Run the blur program with the test image
-./blur test_image.bmp
+# ./blur test_image.bmp
